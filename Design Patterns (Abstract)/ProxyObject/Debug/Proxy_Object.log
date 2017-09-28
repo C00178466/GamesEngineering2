@@ -1,3 +1,6 @@
 ﻿  main.cpp
-  Proxy_Object.vcxproj -> C:\Users\gameuser\Documents\Visual Studio 2017\Projects\Proxy_Object\Debug\Proxy_Object.exe
-  Proxy_Object.vcxproj -> C:\Users\gameuser\Documents\Visual Studio 2017\Projects\Proxy_Object\Debug\Proxy_Object.pdb (Partial PDB)
+  GraphicProxy.cpp
+  Graphic.cpp
+  Generating Code...
+  Proxy_Object.vcxproj -> C:\Users\gameuser\Documents\GamesEngineering2\Design Patterns (Abstract)\ProxyObject\Debug\Proxy_Object.exe
+  Proxy_Object.vcxproj -> C:\Users\gameuser\Documents\GamesEngineering2\Design Patterns (Abstract)\ProxyObject\Debug\Proxy_Object.pdb (Partial PDB)
