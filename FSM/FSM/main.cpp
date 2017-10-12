@@ -21,11 +21,6 @@ int main(int argc, char* argv[])
 
 		while (SDL_PollEvent(&event))
 		{
-			if (event.type == SDL_QUIT)
-			{
-				false;
-			}
-
 			switch (event.type)
 			{
 			case SDL_QUIT:
@@ -42,6 +37,11 @@ int main(int argc, char* argv[])
 				{
 					player.AnimateClimb();
 
+				}
+
+				if (event.key.keysym.sym == SDLK_DOWN)
+				{
+					player.AnimateIdle();
 				}
 			}
 		}
