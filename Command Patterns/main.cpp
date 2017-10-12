@@ -15,17 +15,27 @@ protected:
 	Command() {}
 };
 
-//concrete class
+//concrete classes
 class JumpCommand : public Command
 {
 public:
 	virtual void execute() { cout << "Jump" << endl; }
 };
-//concrete class
+
 class FireCommand : public Command
 {
 public:
 	virtual void execute() { cout << "Fire" << endl; }
+};
+
+class SwitchGunCommand : public Command
+{
+	virtual void execute() { cout << "Switch Gun" << endl; }
+};
+
+class CrouchCommand : public Command
+{
+	virtual void execute() { cout << "Crouch" << endl; }
 };
 
 class InputHandler
@@ -35,8 +45,8 @@ public:
 private:
 	Command* buttonX_ = new JumpCommand();
 	Command* buttonY_ = new FireCommand();
-	Command* buttonA_ = new JumpCommand();
-	Command* buttonB_ = new FireCommand();
+	Command* buttonA_ = new CrouchCommand();
+	Command* buttonB_ = new SwitchGunCommand();
 };
 
 void InputHandler::handleInput(SDL_Event &event)
@@ -93,6 +103,7 @@ void MacroCommand::undo()
 
 	commands->remove(*i);
 
+	cout << endl;
 	cout << "undo" << endl;
 	cout << commands << endl;
 }
@@ -104,6 +115,7 @@ void MacroCommand::redo()
 
 	prevCommands->remove(*i);
 
+	cout << endl;
 	cout << "redo" << endl;
 	cout << commands << endl;
 }
@@ -112,7 +124,7 @@ int main(int argc, char* argv[])
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
-	SDL_Window* window = SDL_CreateWindow("", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 300, SDL_WINDOW_SHOWN);
+	SDL_Window* window = SDL_CreateWindow("Lab 2", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 600, 300, SDL_WINDOW_SHOWN);
 	InputHandler* input = new InputHandler;
 	MacroCommand* mac = new MacroCommand;
 	bool isRunning = true;
