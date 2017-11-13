@@ -14,7 +14,6 @@ void Animation::idle()
 void Animation::jumping()
 {
 	current->jumping(this);
-
 }
 
 void Animation::climbing()
