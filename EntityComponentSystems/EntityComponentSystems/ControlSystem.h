@@ -21,11 +21,8 @@ public:
 		{
 			cout << "Control System Updating" << endl;
 		}
-		
 	}
 
 private:
 	vector<Entity> entities;
-
-	ControlComponent cc;
 };

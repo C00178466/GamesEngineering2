@@ -16,10 +16,10 @@ int main(int argc, char* argv[])
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
 
-	SDL_Window* window = SDL_CreateWindow("FSM", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1080, 720, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
+	SDL_Window* window = SDL_CreateWindow("Entity Component Systems", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1080, 720, SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL);
 	bool running = true;
 
-	//cretae components
+	//create components
 	HealthComponent hc;
 	PositionComponent pc;
 	ControlComponent cc;
@@ -57,9 +57,11 @@ int main(int argc, char* argv[])
 
 	while (running)
 	{
+		//update the systems
 		ai.Update();
 		cs.Update();
 		rs.Update();
+
 		SDL_Event e;
 
 		while (SDL_PollEvent(&e))

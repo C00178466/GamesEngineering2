@@ -16,7 +16,10 @@ public:
 
 	void Update()
 	{
-		cout << "AI System Updating" << endl;
+		for (int i = 0; i < entities.size(); i++)
+		{
+			cout << "AI System Updating" << endl;
+		}
 	}
 
 private:
