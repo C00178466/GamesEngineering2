@@ -5,6 +5,12 @@
 #include "Component.h"
 #include "HealthComponent.h"
 #include "PositionComponent.h"
+#include "AISystem.h"
+#include "ControlSystem.h"
+#include "RenderSystem.h"
+#include <iostream>
+
+using namespace std;
 
 int main(int argc, char* argv[])
 {
@@ -39,8 +45,21 @@ int main(int argc, char* argv[])
 	cat.addComponent(hc);
 	cat.addComponent(pc);
 
+	//create the systems
+	AISystem ai;
+	ControlSystem cs;
+	RenderSystem rs;
+
+	//add entities to systems
+	ai.AddEntity(player);
+	cs.AddEntity(player);
+	rs.AddEntity(player);
+
 	while (running)
 	{
+		ai.Update();
+		cs.Update();
+		rs.Update();
 		SDL_Event e;
 
 		while (SDL_PollEvent(&e))
@@ -51,7 +70,6 @@ int main(int argc, char* argv[])
 				running = false;
 				break;
 			}
-			
 		}
 	}
 

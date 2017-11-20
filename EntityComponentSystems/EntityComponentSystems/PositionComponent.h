@@ -3,8 +3,8 @@
 
 class PositionComponent : public Component {
 public:
-	PositionComponent();
-	~PositionComponent();
+	PositionComponent() {}
+	~PositionComponent() {}
 
 private:
 

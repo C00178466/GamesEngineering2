@@ -3,8 +3,8 @@
 
 class ControlComponent : public Component {
 public:
-	ControlComponent();
-	~ControlComponent();
+	ControlComponent() {}
+	~ControlComponent() {}
 
 private:
 

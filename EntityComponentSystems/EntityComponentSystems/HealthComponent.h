@@ -3,8 +3,8 @@
 
 class HealthComponent : public Component {
 public:
-	HealthComponent();
-	~HealthComponent();
+	HealthComponent() {}
+	~HealthComponent() {}
 
 private:
 
