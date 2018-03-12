@@ -66,8 +66,6 @@ void Reader()
 		}
 		rMutex.V(); // signal function on mutex
 
-		cout << "ID: " << this_thread::get_id() << endl;
-
 		//Read from file here
 
 		rMutex.P(); // wait function
@@ -79,8 +77,6 @@ void Reader()
 			rw.V();
 		}
 		rMutex.V(); // signal function on mutex
-
-		this_thread::sleep_for(chrono::seconds(1));
 	}
 }
 
@@ -92,14 +88,10 @@ void Writer()
 		rw.P(); // wait function on mutex
 		cout << "Writer using file" << endl;
 
-		cout << "ID: " << this_thread::get_id() << endl;
-
 		//write to file here
 
 		cout << "Writer releasing file" << endl;
 		rw.V(); // signal function on mutex
-
-		this_thread::sleep_for(chrono::seconds(1));
 	}
 }
 
