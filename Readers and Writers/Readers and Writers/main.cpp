@@ -2,8 +2,6 @@
 #include <mutex>
 #include <condition_variable>
 #include <thread>
-#include <chrono>
-#include <time.h>
 
 using namespace std;
 
@@ -19,7 +17,7 @@ public:
 	//wait
 	void P()
 	{
-		unique_lock<decltype(m_mutex)> lock(m_mutex);
+		unique_lock<mutex> lock(m_mutex);
 		while (m_count <= 0)
 		{
 			m_cv.wait(lock);
@@ -30,14 +28,12 @@ public:
 	//signal
 	void V()
 	{
-		unique_lock<decltype(m_mutex)> lock(m_mutex);
 		m_count = m_count + 1;
-		m_cv.notify_one();
+		m_cv.notify_all();
 	}
 
 private:
 	mutex m_mutex;
-	unique_lock<mutex> m_lock;
 	condition_variable m_cv;
 	int m_count;
 };
