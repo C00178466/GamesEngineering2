@@ -14,86 +14,122 @@ public:
 		m_count = i;
 	}
 
-	//wait
-	void P()
+	int m_count;
+};
+
+void P(Semaphore& sem)
+{
+	sem.m_count--;
+}
+
+void V(Semaphore& sem)
+{
+	sem.m_count++;
+}
+
+struct Database
+{
+public:
+	Database()
 	{
-		unique_lock<mutex> lock(m_mutex);
-		while (m_count <= 0)
+		//init values of data to 0
+		for (int i = 0; i < 10; i++)
 		{
-			m_cv.wait(lock);
+			data[i] = 0;
 		}
-		m_count = m_count - 1;
+		index = 0;
 	}
 
-	//signal
-	void V()
+	~Database() {}
+
+	int ReadFromDatabase(int pos)
 	{
-		m_count = m_count + 1;
-		m_cv.notify_all();
+		//return element at pos
+		return data[pos];
+	}
+
+	void WriteToDatabase(int num)
+	{
+		data[index] = num;
+		index++;
 	}
 
 private:
-	mutex m_mutex;
-	condition_variable m_cv;
-	int m_count;
+	int data[10];
+	int index;
 };
 
 //number of active readers
 int nr = 0;
 
+//Create Database
+Database db;
+
 //Create Semaphores
-Semaphore rw;
-Semaphore rMutex;
+//lock for access to database
+Semaphore rw(1);
+
+//lock for reader access to nr
+Semaphore mutexR(1);
 
 void Reader()
 {
-	bool running = true;
-	while (running)
+	while (true)
 	{
-		rMutex.P(); // wait function on mutex
-		nr++; //increase number of readers
+		P(mutexR); // wait function on mutex
+		nr = nr + 1; //increase number of readers
 
 		//Check if reader is the first one
-		if (nr == 1)
+		if (nr >= 1)
 		{
-			rw.P(); // wait function
+			P(rw); // wait function
 
-			cout << "Reader using File" << endl;
+			cout << "Reader: " <<  this_thread::get_id() << " using File" << endl;
 		}
-		rMutex.V(); // signal function on mutex
+		V(mutexR); // signal function on mutex
 
-		//Read from file here
+		//Read from database
+		//db.ReadFromDatabase(1);
 
-		rMutex.P(); // wait function
+		P(mutexR); // wait function
 		nr--; //decrease number of readers
 
 		if (nr == 0)
 		{
-			cout << "Reader releasing File" << endl;
-			rw.V();
+			V(rw);
+
+			cout << "Reader: " << this_thread::get_id() << " releasing File" << endl;
 		}
-		rMutex.V(); // signal function on mutex
+		V(mutexR); // signal function on mutex
+
+		this_thread::sleep_for(chrono::seconds(1));
 	}
 }
 
 void Writer()
 {
-	bool running = true;
-	while (running)
+	while (true)
 	{
-		rw.P(); // wait function on mutex
-		cout << "Writer using file" << endl;
+		P(rw); // wait function on mutex
+		cout << "Writer: " << this_thread::get_id() << " using file" << endl;
 
-		//write to file here
+		//write to database
+		//int tempNum = rand() % 10 + 1;
+		//db.WriteToDatabase(tempNum);
 
-		cout << "Writer releasing file" << endl;
-		rw.V(); // signal function on mutex
+		cout << "Writer: " << this_thread::get_id() << " releasing file" << endl;
+		V(rw); // signal function on mutex
+
+		this_thread::sleep_for(chrono::seconds(1));
 	}
 }
 
 
+
 int main()
 {
+	srand(NULL);
+
 	//create 3 readers and 2 writers
 	thread Reader1(Reader);
 	thread Reader2(Reader);
