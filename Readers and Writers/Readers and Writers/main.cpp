@@ -31,7 +31,7 @@ void Reader()
 			P(rw); // wait function
 			cout << "Reader using File" << endl;
 		}
-		V(mutexR); // signal function on mutex
+		V(mutexR); // signal function on mutexxce
 
 		//Read from database
 		//db.ReadFromDatabase(1);
